@@ -1,0 +1,5 @@
+---
+applications:
+- name: python-ms
+  command: python server.py
+  random-route: true
