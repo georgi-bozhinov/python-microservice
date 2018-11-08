@@ -6,9 +6,9 @@ from flask import request
 from flask import jsonify
 from flask import g
 
-from db import DatabaseManager
-import tree
-import book
+from database.db import DatabaseManager
+import database.tree as tree
+import database.book as book
 
 # pylint: disable=missing-docstring,protected-access
 

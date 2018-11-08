@@ -3,17 +3,6 @@ from random import randint
 
 import requests
 
-# def _insert_book(conn):
-#     book_id = randint(1, 100000)
-#     book_name = 'My Book #{}'.format(str(book_id))
-
-#     sql = 'insert into books values ($1, $2);'
-#     stmt = conn.prepare(sql)
-#     stmt(book_id, book_name)
-
-#     return book_id
-
-
 node_backend = os.getenv('NODE_BACKEND', 'localhost:3000')
 
 

@@ -1,5 +1,6 @@
 import postgresql.driver as pg_driver
-from config import CREDENTIALS
+
+from .config import CREDENTIALS
 
 
 class DatabaseManager:
