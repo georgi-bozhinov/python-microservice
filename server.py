@@ -6,13 +6,17 @@ from flask import request
 from flask import jsonify
 from flask import g
 
+from flask_cors import CORS
+
 from database.db import DatabaseManager
 import database.tree as tree
 import database.book as book
+import database.user as user
 
 # pylint: disable=missing-docstring,protected-access
 
 app = Flask(__name__) # pylint: disable=invalid-name
+CORS(app)
 
 
 @app.errorhandler(500)
@@ -44,6 +48,14 @@ def delete_table_data():
         book.delete_sample_data(db.conn)
 
     return jsonify({'status': 'success'})
+
+
+@app.route('/api/addressbook/userinfo')
+def user_info():
+    with DatabaseManager() as db:
+        users = user.get_users(db.conn)
+
+    return jsonify(users)
 
 
 PORT = int(os.getenv("PORT", 9099))

@@ -32,15 +32,18 @@ def _fetch_addresses(conn, bookid):
     return addresses
 
 
-def _read_books():
-    response = requests.get(f'http://{node_backend}/api/addressbook/books/select');
-    return response.json()
+def _read_books(conn):
+    sql = 'select * from books;'
+    stmt = conn.prepare(sql)
+    books = stmt()
+
+    return books
 
 
 def read(conn):
     """ all address books from DB """
 
-    books = _read_books()
+    books = _read_books(conn)
 
     root = {}
     for book in books:

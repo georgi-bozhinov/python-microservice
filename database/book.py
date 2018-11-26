@@ -1,9 +1,17 @@
 import os
 from random import randint
 
-import requests
+# import requests
 
-node_backend = os.getenv('NODE_BACKEND', 'localhost:3000')
+def _insert_book(conn, _userid):
+    book_id = randint(1, 100000)
+    book_name = 'My Book #' + str(book_id)
+
+    sql = 'insert into books values ($1, $2);'
+    stmt = conn.prepare(sql)
+    stmt(book_id, book_name)
+
+    return book_id
 
 
 def _insert_addresses(conn, bookid):
@@ -43,15 +51,22 @@ def _insert_addresses(conn, bookid):
     )
 
 
+def _delete_addresses_and_books(conn):
+    conn.execute('delete from addresses;')
+    conn.execute('delete from books;')
+
+
 def insert_sample_data(conn):
     """ inserts two address books in DB """
 
-    bookid = requests.get(f'http://{node_backend}/api/addressbook/books/insert').json()['book_id'][0]
-    _insert_addresses(conn, bookid)
+    book_id = _insert_book(conn, None)
+    # bookid = requests.get(f'http://{node_backend}/api/addressbook/books/insert').json()['book_id'][0]
+    _insert_addresses(conn, book_id)
 
 
 def delete_sample_data(conn):
     """ deletes database content """
 
-    conn.execute('delete from addresses;')
-    requests.get(f'http://{node_backend}/api/addressbook/books/delete')
+    # conn.execute('delete from addresses;')
+    # requests.get(f'http://{node_backend}/api/addressbook/books/delete')
+    _delete_addresses_and_books(conn) 
